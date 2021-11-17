@@ -13,9 +13,9 @@ const useStyles = makeStyles({
             marginRight: '100px'
         },
         logo: {
-            marginRight: '200px',
-            height: '99px',
-            width: '177px'
+            marginRight: '50px',
+            height: '111px',
+            width: '392px'
         },
         divider: {
             marginLeft:'auto',
@@ -37,7 +37,8 @@ function Header() {
             <AppBar className={classes.header} position="sticky">
                 <MainMenu className={classes.menu} />
                 <Divider className={classes.divider} flexItem orientation="vertical" />
-                <CardMedia className={classes.logo} image="images/Logo.png" />
+            
+                <img className={classes.logo} src="images/Logo2.svg"></img>
             </AppBar>
         </Box>
     );

@@ -1,9 +1,11 @@
 import { Button, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { borderRadius } from "@mui/system";
 
 const useStyles = makeStyles({
         button: {
-            margin: '5px'
+            margin: '5px',
+            borderRadius: '10px'
         }
     },
     {

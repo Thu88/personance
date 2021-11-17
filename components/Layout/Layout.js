@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Header from "../Header";
 import SubMenu from '../SubMenu';
+import Footer from '../Footer';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {makeStyles} from "@mui/styles";
 import {Box, Paper} from "@mui/material";
@@ -11,7 +12,7 @@ const theme = createTheme({
             main: '#27a82ca0'
         },
         secondary: {
-            main: 'rgb(25, 118, 210)'
+            main: '#5E30BA'
         }
     }
 });
@@ -21,16 +22,22 @@ const useStyles = makeStyles({
         display: 'flex',
         flexDirection: 'row',
         marginTop: '10px',
+        marginBottom: '10px',
         justifyContent: 'space-between'
     },
     subMenu: {
-        height: '70vh',
+        height: '69vh',
         width: '17vh'
     },
     main: {
-        height: '70vh',
+        height: '69vh',
         width: '73vw',
         padding: '30px 70px',
+    },
+    footer: {
+        top: 'auto',
+        bottom: '0',
+        height: '9vh'
     }
 })
 
@@ -49,6 +56,8 @@ function Layout({ children }) {
                     </Paper>
                    
                 </Box>
+
+                <Footer className={classes.footer} />
             </ThemeProvider>
         </>
     );
