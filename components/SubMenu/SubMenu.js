@@ -22,7 +22,7 @@ const SubMenu = ({ className }) => {
         <Box className={className}>
             <Paper className={`${className} ${classes.paper}`} position="sticky">
                {submenu.map((entry) => {
-                   return <Button className={classes.button} variant="contained" color="secondary">{entry.name} </Button>
+                   return <Button key={entry.name} className={classes.button} variant="contained" color="secondary">{entry.name} </Button>
                })}
             </Paper>
         </Box>
