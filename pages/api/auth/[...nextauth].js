@@ -23,8 +23,8 @@ export default NextAuth({
 
                 });                
                 console.log(test1)
-                console.log(test1)
-                return test1
+
+                return {name: test1.username}
             }
         })
     ],
