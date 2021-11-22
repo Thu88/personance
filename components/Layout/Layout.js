@@ -27,11 +27,11 @@ const useStyles = makeStyles({
     },
     subMenu: {
         height: '69vh',
-        width: '17vh'
+        width: '200px'
     },
     main: {
         height: '69vh',
-        width: '73vw',
+        width: 'calc(100vw - 550px)',
         padding: '30px 70px',
     },
     footer: {

@@ -19,7 +19,7 @@ function MainMenu( {className} ) {
 
     return (
         <Box className={className}>
-            <Button className={classes.button} color="secondary" variant="contained">1</Button>
+            <Button href="/accounts" className={classes.button} color="secondary" variant="contained">Accounts</Button>
             <Button className={classes.button} color="secondary" variant="contained">2</Button>
             <Button className={classes.button} color="secondary" variant="contained">3</Button>
             <Button className={classes.button} color="secondary" variant="contained">4</Button>

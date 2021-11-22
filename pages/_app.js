@@ -1,5 +1,7 @@
 import React from 'react';
 import { Provider } from 'next-auth/client'
+import { Provider as ReduxProvider} from 'react-redux';
+import { store } from '../redux/store';
 import Layout from '../components/Layout';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -11,12 +13,14 @@ function customApp({
   pageProps: { session, ...pageProps} 
   }) {
 
-  return (    
+  return (
+    <ReduxProvider store={store}>     
         <Layout>
           <Provider session={session}>
             <Component {...pageProps}></Component>
           </Provider>
         </Layout>
+    </ReduxProvider>
   );
 }
 
