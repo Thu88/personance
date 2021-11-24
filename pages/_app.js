@@ -15,11 +15,12 @@ function customApp({
 
   return (
     <ReduxProvider store={store}>     
-        <Layout>
-          <Provider session={session}>
-            <Component {...pageProps}></Component>
-          </Provider>
-        </Layout>
+        <Provider session={session}>
+          <Layout>
+        
+              <Component {...pageProps}></Component>
+          </Layout>
+        </Provider>
     </ReduxProvider>
   );
 }

@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
 import { Paper, Box, Button} from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { UPDATE_SUBMENU } from '../../redux/actionTypes';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -16,13 +17,28 @@ const useStyles = makeStyles(theme => ({
 
 const SubMenu = ({ className }) => {
     const classes = useStyles();
-    const {submenu} = useSelector(state => state.submenu)
+    const {submenu} = useSelector(state => state.submenu);
+    const dispatch = useDispatch();
+
+    const sendDispatch = (entryName) => {
+        const entryIndex = submenu.findIndex(entry => entry.name === entryName);
+        
+        submenu[entryIndex].active = true;
+        
+        dispatch({
+            type: UPDATE_SUBMENU,
+            payload: {
+                submenu: submenu
+            }
+        });
+    };
+
     console.log(submenu)
     return (
         <Box className={className}>
             <Paper className={`${className} ${classes.paper}`} position="sticky">
                {submenu.map((entry) => {
-                   return <Button key={entry.name} className={classes.button} variant="contained" color="secondary">{entry.name} </Button>
+                   return <Button onClick={() => sendDispatch(entry.name)} key={entry.name} className={classes.button} variant="contained" color="secondary">{entry.name} </Button>
                })}
             </Paper>
         </Box>

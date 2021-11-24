@@ -1,1 +1,2 @@
 export const UPDATE_SUBMENU = "UPDATE_SUBMENU";
+export const UPDATE_USER = "UPDATE_USER";

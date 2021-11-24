@@ -1,8 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
-import { MongoClient } from 'mongodb';
-import { useRouter } from "next/dist/client/router";
+
 export default NextAuth({
     providers: [
         CredentialsProvider({
@@ -24,7 +23,7 @@ export default NextAuth({
                 });                
                 console.log(test1)
 
-                return {name: test1.username}
+                return test1;
             }
         })
     ],
@@ -35,6 +34,19 @@ export default NextAuth({
            async redirect({ url, baseUrl }) {     
                 return baseUrl 
             },
+            async session(session, token) {
+                //session.accessToken = token.accessToken;
+                session.user = token.user;
+                return session;
+            },
+            async jwt(token, user, account, profile, isNewUser) {
+                console.log("JWT User");
+                console.log(user);
+                if (user) {
+                    token.user = user;
+                }
+                return token;
+            }
     }
    
 })
