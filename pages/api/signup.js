@@ -10,6 +10,7 @@ export default function handler(req, res) {
           collection.insertOne({
               username: req.body.username,
               password: req.body.password,
+              accounts: []
           }).then(() => {
             client.close();
             res.redirect('/');

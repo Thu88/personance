@@ -6,12 +6,11 @@ export default async function handler(req, res) {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
     const jsonRes = JSON.parse(req.body);
     const user = jsonRes.user
-    const account = jsonRes.accountNo;
     
-    console.log(user, account)
+    console.log(user)
     await client.connect();
     const collection = await client.db("personance").collection("users");
-    await collection.updateOne({_id: ObjectID(user._id)}, {$push: {accounts: account}}, {upset: true})
+    const mongoRes = await collection.findOne({_id: ObjectID(user._id)})
     client.close();
-    res.status(200).json({message: 'success'})
+    res.status(200).json({message: 'success', accounts: mongoRes.accounts})
 }
