@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         width: '200px',
-        margin: '0px'
+        margin: '5px 0px'
     }
 }));
 
@@ -23,6 +23,10 @@ const SubMenu = ({ className }) => {
     const sendDispatch = (entryName) => {
         const entryIndex = submenu.findIndex(entry => entry.name === entryName);
         
+        submenu.forEach((entry) => {
+            entry.active = false;
+        });
+
         submenu[entryIndex].active = true;
         
         dispatch({

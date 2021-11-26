@@ -1,12 +1,8 @@
 import React, { useEffect } from "react";
-import useSWR from 'swr'
 import { makeStyles } from "@mui/styles";
 import { TextField, Button, Box, List, ListItem, Paper, Checkbox, Form } from "@mui/material";
 import { useRouter } from 'next/router';
 import { useSession} from 'next-auth/client';
-import { useSelector } from "react-redux";
-import { padding } from "@mui/system";
-
 
 const useStyles = makeStyles(theme => ({
     createAccountContainer: {

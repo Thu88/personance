@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CreateAccount from '../../components/Accounts/CreateAccount';
+import EditAccount from '../../components/Accounts/EditAccount';
 import { UPDATE_SUBMENU } from '../../redux/actionTypes';
 
 const Accounts = () => {
@@ -11,6 +12,10 @@ const Accounts = () => {
                 submenu: [
                     {
                         name: 'Create account',
+                        active: false,
+                    },
+                    {
+                        name: 'Edit account',
                         active: false,
                     }
                 ]
@@ -25,6 +30,9 @@ const Accounts = () => {
             switch (elem.name) {
                 case 'Create account':
                     activeSubmenuEntry = <CreateAccount />
+                    break;
+                case 'Edit account':
+                    activeSubmenuEntry = <EditAccount />
             }
         }
     });
