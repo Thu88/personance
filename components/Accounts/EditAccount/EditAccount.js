@@ -12,7 +12,7 @@ import DatePicker from '@mui/lab/DatePicker';
 const useStyles = makeStyles(theme => ({
     
 }));
-//save ssh
+
 const EditAccount = () => {
     const classes = useStyles();
     const [account, setAccount] = React.useState('');
@@ -22,8 +22,21 @@ const EditAccount = () => {
     const [session] = useSession();
     const user = session.user;
 
-    const handleChange = (event) => {
+    const handleChange = (event, child) => {
+      const id = Number(child.props.accountindex);
+      const accountNo = event.target.value;
+      console.log(event.target.value)
       setAccount(event.target.value);
+
+      fetch('/api/getaccountscontent', {
+        method: 'POST',
+        body: JSON.stringify({user, accountNo, id})
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        setRows(res.rows)
+      })
     };
 
     const updateRow = () => {
@@ -67,7 +80,8 @@ const EditAccount = () => {
             const newAccounts = res.accounts;
             setAccounts(newAccounts);
           }
-        })
+        });
+
       }, [])
 
     return (
@@ -82,7 +96,7 @@ const EditAccount = () => {
                 onChange={handleChange}
                 >
                     {accounts.map((acc, index) => {
-                        return (<MenuItem key={`${acc}:${index}`} value={acc}>{acc}</MenuItem>);
+                        return (<MenuItem accountindex={`${index}`} key={`${acc}:${index}`} value={acc}>{acc}</MenuItem>);
                     })}
                 </Select>
             </FormControl>
