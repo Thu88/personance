@@ -33,6 +33,7 @@ const useStyles = makeStyles({
         height: '69vh',
         width: 'calc(100vw - 550px)',
         padding: '30px 70px',
+        overflow: 'scroll'
     },
     footer: {
         top: 'auto',

@@ -2,15 +2,27 @@ import React from "react";
 import { useEffect } from "react";
 import { useSession} from 'next-auth/client';
 import { makeStyles } from "@mui/styles";
-import { Box, Button, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material'
+import { Box, Button, RaisedButton, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material'
 import { Label } from "@mui/icons-material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
-
+import { parse } from 'csv-parse/sync';
+import { margin } from "@mui/system";
 
 const useStyles = makeStyles(theme => ({
-    
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      rowGap: '30px',
+    },
+    button: {
+      marginRight: '10px',
+    },
+    uploadButton: {
+      width: '300px',
+      margin: '0 auto',
+    }
 }));
 
 const EditAccount = () => {
@@ -78,6 +90,27 @@ const EditAccount = () => {
       setRows(rowsCopy);
     };
 
+    const handleFileUpload = (event) => {
+      const importedAccountRows = [];
+      const importedCsvFile = event.target.files[0];
+      const reader = new FileReader();
+      
+      reader.addEventListener("load", () => {
+        const text = reader.result;
+        const records = parse(text, {delimiter: ';'});
+        const id = rows.length === 0 ? 1 : rows[rows.length -1].id + 1
+        const rowsToBeAdded = records.slice(1).map((record, index) => {
+          const csvDate = record[0].split(".");
+          console.log(csvDate)
+          return {id: id + index, date: new Date(csvDate[2], csvDate[1] -1, csvDate[0]), text: record[1], amount: record[2], category: ''};
+        });
+
+        console.log(rowsToBeAdded)
+        setRows([...rows, ...rowsToBeAdded])
+      })
+      reader.readAsText(importedCsvFile);
+    }
+
     useEffect(() => {
         fetch('/api/getaccounts', {
           method: 'POST',
@@ -92,7 +125,7 @@ const EditAccount = () => {
       }, [])
 
     return (
-        <Box>
+        <Box className={classes.container}>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Account</InputLabel>
                 <Select
@@ -108,9 +141,23 @@ const EditAccount = () => {
                 </Select>
             </FormControl>
             <Box>
-              <Button onClick={createRow} variant="contained" color="secondary">
+              <Button className={classes.button} onClick={createRow} variant="contained" color="secondary">
                 Create new row
               </Button>
+              <input
+                accept="text/csv"
+                className={classes.input}
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                multiple
+                type="file"
+                onChange={handleFileUpload}
+              />
+              <label htmlFor="raised-button-file">
+                <Button variant="contained" color="secondary" component="span" className={classes.button}>
+                  Upload csv file
+                </Button>
+              </label> 
             </Box>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="spanning table">
@@ -185,6 +232,8 @@ const EditAccount = () => {
                 </TableBody>
               </Table>
             </TableContainer>
+
+            <Button variant="contained" color="secondary" onClick={updateRow} className={classes.uploadButton}>Upload all</Button>
         </Box>
     );
 };
