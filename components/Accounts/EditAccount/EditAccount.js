@@ -71,6 +71,13 @@ const EditAccount = () => {
       setRows(rowsCopy);
     };
 
+    const deleteRow = (row) => {
+      const rowsCopy = [...rows];
+      const index = rowsCopy.findIndex((currentRow) => currentRow.id === row.id);
+      rowsCopy.splice(index, 1)
+      setRows(rowsCopy);
+    };
+
     useEffect(() => {
         fetch('/api/getaccounts', {
           method: 'POST',
@@ -115,6 +122,7 @@ const EditAccount = () => {
                     <TableCell align="left">Beløb</TableCell>
                     <TableCell align="left">Kategori</TableCell>
                     <TableCell align="left">Updater</TableCell>
+                    <TableCell align="left">Delete</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -161,8 +169,14 @@ const EditAccount = () => {
                           <TableCell>
                             <Button variant="contained" color="secondary" onClick={() => {
                               setRow(row);
-                              updateRow(row.id);
+                              updateRow();
                             }}>Updater</Button>
+                          </TableCell>
+                          <TableCell>
+                            <Button variant="contained" color="secondary" onClick={() => {
+                              deleteRow(row);
+                              updateRow();
+                            }}>Delete</Button>
                           </TableCell>
                         </TableRow>
                       );
