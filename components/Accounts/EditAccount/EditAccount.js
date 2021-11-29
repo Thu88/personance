@@ -15,6 +15,12 @@ const useStyles = makeStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       rowGap: '30px',
+      height: '68vh'
+    },
+    containerAfterUpdate: {
+      display: 'flex',
+      flexDirection: 'column',
+      rowGap: '30px',
     },
     button: {
       marginRight: '10px',
@@ -111,7 +117,12 @@ const EditAccount = () => {
       reader.readAsText(importedCsvFile);
     }
 
+    const containerRef = React.useRef();
     useEffect(() => {
+        setTimeout(() => {
+          containerRef.current.className = classes.containerAfterUpdate
+          console.log(containerRef)
+        }, 30)
         fetch('/api/getaccounts', {
           method: 'POST',
           body: JSON.stringify({user: user})
@@ -125,7 +136,7 @@ const EditAccount = () => {
       }, [])
 
     return (
-        <Box className={classes.container}>
+        <Box ref={containerRef} id="editAccountContainer" className={classes.container}>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Account</InputLabel>
                 <Select
