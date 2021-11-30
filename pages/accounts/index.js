@@ -4,27 +4,18 @@ import CreateAccount from '../../components/Accounts/CreateAccount';
 import EditAccount from '../../components/Accounts/EditAccount';
 import ViewReports from '../../components/Accounts/ViewReports';
 import { UPDATE_SUBMENU } from '../../redux/actionTypes';
-import { useSession} from 'next-auth/client';
+import { useSession, getSession} from 'next-auth/client';
 import { useRouter } from 'next/router';
 
 const Accounts = () => {
-    const [session] = useSession();
     const dispatch = useDispatch();
     const {submenu} = useSelector(state => state.submenu);
     const router = useRouter();
+    let session;
     
     let activeSubmenuEntry;
 
     useEffect(() => {
-        if(!session) {
-            router.push({
-                pathname: '/signin',
-                query: {
-                    text: true,
-                }
-            });
-        }
-
         dispatch({
             type: UPDATE_SUBMENU,
             payload: {
@@ -44,9 +35,21 @@ const Accounts = () => {
                 ]
             }
         });
+        getUser();
+        async function getUser() {
+            session = await getSession();
+            if (!session) {
+                router.push({
+                    pathname: '/signin',
+                    query: {
+                        text: true,
+                    }
+                });
+            }
+        }
     }, []);
-
-    if (session) {
+    
+    if (true) {
         submenu.forEach((elem) => {
             if (elem.active === true) {
                 switch (elem.name) {
@@ -62,6 +65,13 @@ const Accounts = () => {
                 }
             }
         });
+    } else {
+        /* router.push({
+            pathname: '/signin',
+            query: {
+                text: true,
+            }
+        }); */
     }
     
 
@@ -73,3 +83,4 @@ const Accounts = () => {
 };
 
 export default Accounts;
+
