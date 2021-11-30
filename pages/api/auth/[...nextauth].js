@@ -33,7 +33,7 @@ export default NextAuth({
     },
     callbacks: {
            async redirect({ url, baseUrl }) {     
-                return baseUrl 
+                return url 
             },
             async session(session, token) {
                 //session.accessToken = token.accessToken;
