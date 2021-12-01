@@ -1,4 +1,4 @@
-import { AppBar, Box, CardMedia, Divider } from "@mui/material";
+import { AppBar, Box, CardMedia, Divider, Typography, Link } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import MainMenu from '../MainMenu';
 import MainPopupMenu from "../MainPopupMenu";
@@ -8,15 +8,17 @@ const useStyles = makeStyles({
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft: '100px',
+            paddingLeft: '40px',
         },
         menu: {
-            marginRight: '100px'
+            marginRight: '100px',
+            marginLeft: '160px'
         },
         logo: {
             marginRight: '50px',
             height: '111px',
-            width: '392px'
+            width: '392px',
+            objectFit: 'cover'
         },
         divider: {
             //marginLeft:'auto',
@@ -25,7 +27,11 @@ const useStyles = makeStyles({
         popupMenu: {
             marginLeft:'auto', 
             marginRight: '50px'        
-        }
+        },
+        homeLink: {
+            textShadow: '1px 1px black',
+            textDecoration: 'none',
+        },
         
     },
     {
@@ -40,10 +46,11 @@ function Header() {
     return (
         <Box>
             <AppBar className={classes.header} position="sticky">
+                <Link className={classes.homeLink} href="/"><Typography color="black" variant="h3">Personance</Typography></Link>
                 <MainMenu className={classes.menu} />
                 <MainPopupMenu className={classes.popupMenu} />
                 <Divider className={classes.divider} flexItem orientation="vertical" />
-                <img className={classes.logo} src="images/Logo2.svg"></img>
+                <img className={classes.logo} src="images/Logo4.svg"></img>
             </AppBar>
         </Box>
     );

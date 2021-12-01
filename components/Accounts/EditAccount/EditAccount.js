@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useSession} from 'next-auth/client';
 import { makeStyles } from "@mui/styles";
-import { Box, Button, RaisedButton, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper } from '@mui/material'
+import { Box, Button, RaisedButton, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper, Typography } from '@mui/material'
 import { Label } from "@mui/icons-material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -24,10 +24,12 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
       marginRight: '10px',
+      textTransform: 'none',
     },
     uploadButton: {
       width: '300px',
       margin: '0 auto',
+      textTransform: 'none',
     }
 }));
 
@@ -153,7 +155,7 @@ const EditAccount = () => {
             </FormControl>
             <Box>
               <Button className={classes.button} onClick={createRow} variant="contained" color="secondary">
-                Create new row
+                <Typography>Create new row</Typography>
               </Button>
               <input
                 accept="text/csv"
@@ -166,7 +168,7 @@ const EditAccount = () => {
               />
               <label htmlFor="raised-button-file">
                 <Button variant="contained" color="secondary" component="span" className={classes.button}>
-                  Upload csv file
+                  <Typography>Upload csv file</Typography>
                 </Button>
               </label> 
             </Box>
@@ -244,7 +246,7 @@ const EditAccount = () => {
               </Table>
             </TableContainer>
 
-            <Button variant="contained" color="secondary" onClick={updateRow} className={classes.uploadButton}>Upload all</Button>
+            <Button variant="contained" color="secondary" onClick={updateRow} className={classes.uploadButton}><Typography>Upload all</Typography></Button>
         </Box>
     );
 };

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useState } from 'react';
-import { Paper, Box, Button} from "@mui/material";
+import { Paper, Box, Button, Typography} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { UPDATE_SUBMENU } from '../../redux/actionTypes';
 
@@ -11,7 +11,8 @@ const useStyles = makeStyles(theme => ({
     },
     button: {
         width: '200px',
-        margin: '5px 0px'
+        margin: '5px 0px',
+        textTransform: 'none',
     }
 }));
 
@@ -42,7 +43,11 @@ const SubMenu = ({ className }) => {
         <Box className={className}>
             <Paper className={`${className} ${classes.paper}`} position="sticky">
                {submenu.map((entry) => {
-                   return <Button onClick={() => sendDispatch(entry.name)} key={entry.name} className={classes.button} variant="contained" color="secondary">{entry.name} </Button>
+                   return ( 
+                    <Button onClick={() => sendDispatch(entry.name)} key={entry.name} className={classes.button} variant="contained" color="secondary">
+                      <Typography>{entry.name}</Typography> 
+                    </Button>
+                   )
                })}
             </Paper>
         </Box>

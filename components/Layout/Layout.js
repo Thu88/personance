@@ -14,7 +14,10 @@ const theme = createTheme({
         secondary: {
             main: '#5E30BA'
         }
-    }
+    },
+    typography: [
+        'Nunito'
+    ].join(',')
 });
 
 const useStyles = makeStyles({
