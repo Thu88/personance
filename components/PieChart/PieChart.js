@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { Chart, registerables } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useEffect, useRef } from 'react';
 import React from 'react';
 let pieChart;
@@ -18,7 +19,7 @@ const PieChart = ({ rows }) => {
     const [categories, setCategories] = React.useState([]);
     const [amounts, setAmounts] = React.useState([])
     const pieRef = useRef();
-    Chart.register(...registerables)
+    Chart.register(ChartDataLabels, ...registerables)
     if (rows.toString() !== expenses.toString()) {
         setExpenses(rows);
         const categoryExpenses = rows.map(row => {
@@ -70,6 +71,7 @@ const PieChart = ({ rows }) => {
             console.log(color)
             return color;
         })
+        pieChart.data.indexLabelPlacement = true;
 
         console.log(pieChart)
         pieChart.update()
@@ -88,14 +90,37 @@ const PieChart = ({ rows }) => {
                 labels: categories,
                 datasets: [
                     {
+                        indexLabelPlacement: 'inside',
                         label: "Sales",
                         data: amounts,
                     }
-                ]
+                ],
+              
             },
             options: {
-                
-            }
+                borderColor: 'black',
+                plugins: {
+                    tooltip: {
+                        enabled: false,
+                    },
+                    legend: {
+                        display: false
+                    },
+                    datalabels: {
+                      display: true,
+                      formatter: (val, ctx) => {
+                        return `${ctx.chart.data.labels[ctx.dataIndex]} ${val} Kr.`;
+                      },
+                      align: 'bottom',
+                      borderRadius: 3,
+                      font: {
+                        size: 18,
+                      },
+                      backgroundColor: '#404040',
+                      color: '#fff',
+                    },
+                  }
+            },
         });
         
         return () => {

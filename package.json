@@ -21,6 +21,7 @@
     "@mui/x-data-grid": "^5.0.1",
     "babel-plugin-styled-components": "^1.5.1",
     "chart.js": "^3.6.0",
+    "chartjs-plugin-datalabels": "^2.0.0",
     "csv": "^6.0.4",
     "csv-parse": "^5.0.3",
     "date-fns": "^2.26.0",

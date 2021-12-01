@@ -3,8 +3,21 @@ import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import PieChart from "../../PieChart";
 import { useEffect } from "react";
 import { useSession} from 'next-auth/client';
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: '40px',
+  },
+  pieChart: {
+    marginLeft: '200px'
+  }
+}));
 
 const ViewReports = () => {
+    const classes = useStyles();
     const [account, setAccount] = React.useState('');
     const [accounts, setAccounts] = React.useState([]);
     const [rows, setRows] = React.useState([]);
@@ -42,7 +55,7 @@ const ViewReports = () => {
       }, [])
   
     return (
-        <Box>
+        <Box className={classes.container}>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Account</InputLabel>
                 <Select
@@ -57,7 +70,8 @@ const ViewReports = () => {
                     })}
                 </Select>
             </FormControl>
-            <PieChart rows={rows} />
+            <Box className={classes.pieChart}> <PieChart rows={rows} /></Box>
+           
         </Box>
     );
 }
