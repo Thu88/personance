@@ -8,6 +8,7 @@ module.exports = (phase, { defaultConfig }) => {
           NEXTAUTH_URL: 'http://localhost:3000'
         }
       }
+    }
 
     return {
         env: {
@@ -15,4 +16,4 @@ module.exports = (phase, { defaultConfig }) => {
         }
     }
   }
-}
+
