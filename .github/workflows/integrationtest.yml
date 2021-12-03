@@ -18,3 +18,6 @@ jobs:
         with:
           # Specify Browser since container image is compile with Firefox
           browser: firefox
+          start: npm run dev
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
