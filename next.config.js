@@ -1,19 +1,21 @@
-const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
+const { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_SERVER} = require('next/constants');
 
 module.exports = (phase, { defaultConfig }) => {
-    if (phase === PHASE_DEVELOPMENT_SERVER) {
-        console.log(phase)
-      return {
-        env: {
-          NEXTAUTH_URL: 'http://localhost:3000'
-        }
-      }
-    }
+  let url;
 
-    return {
-        env: {
-          NEXTAUTH_URL: 'https://personance.herokuapp.com'
-        }
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    url = 'http://localhost:3000';
+  } else if (phase === PHASE_PRODUCTION_SERVER) {
+    url = 'https://personance.herokuapp.com'
+  }
+  
+  console.log(url)
+
+  return {
+    env: {
+      NEXTAUTH_URL: url
     }
   }
+  
+}
 
