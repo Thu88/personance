@@ -28,7 +28,7 @@ describe('Create account', () => {
         cy.get('main').within(() => {
             cy.get('input[type="text"]').type("A new test item");
             cy.contains('Create account').click();
-            cy.wait(1500);
+            cy.wait(3500);
             cy.get('li').eq(1).should('have.text', 'A new test item');
         });
     });
@@ -39,7 +39,7 @@ describe('Create account', () => {
                 cy.get('input').click();
             });
             cy.contains('Delete account').click();
-            cy.wait(1500);
+            cy.wait(3500);
             cy.get('ul').its('length').should('eq', 1);
         });
     });
