@@ -114,7 +114,7 @@ const CreateAccount = () => {
         <>  
             <Box className={classes.createAccountContainer}>
                 <TextField className={classes.accountField} variant="standard"  placeholder="Account number" value={accountNo} onChange={handleAccountChange} />
-                <Button className={classes.button} variant="contained" color="secondary" onClick={postAccount}><Typography>Create account</Typography></Button>
+                <Button disabled={accountNo !== '' ? false : true} className={classes.button} variant="contained" color="secondary" onClick={postAccount}><Typography>Create account</Typography></Button>
             
                 <Paper className={classes.listContainer}>
                     <List className={classes.list}>
