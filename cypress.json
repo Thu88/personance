@@ -1,1 +1,9 @@
-{}
+{
+    "baseUrl": "http://localhost:3000",
+    "env": {
+        "CREDENTIALS_USER": "Testing",
+        "GOOGLE_PW": "test",
+        "COOKIE_NAME": "next-auth.session-token",
+        "SITE_NAME": "http://localhost:3000"
+    }
+}

@@ -44,7 +44,7 @@ const SubMenu = ({ className }) => {
             <Paper className={`${className} ${classes.paper}`} position="sticky">
                {submenu.map((entry) => {
                    return ( 
-                    <Button onClick={() => sendDispatch(entry.name)} key={entry.name} className={classes.button} variant="contained" color="secondary">
+                    <Button onClick={() => sendDispatch(entry.name)} name={entry.name.replace(' ', '_')} key={entry.name} className={classes.button} variant="contained" color="secondary">
                       <Typography>{entry.name}</Typography> 
                     </Button>
                    )
