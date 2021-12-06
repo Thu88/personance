@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateAccount from '../../components/Accounts/CreateAccount';
 import EditAccount from '../../components/Accounts/EditAccount';
 import ViewReports from '../../components/Accounts/ViewReports';
+import Budget from '../../components/Accounts/Budget';
 import { UPDATE_SUBMENU } from '../../redux/actionTypes';
 import { useSession, getSession} from 'next-auth/client';
 import { useRouter } from 'next/router';
@@ -30,6 +31,10 @@ const Accounts = () => {
                     },
                     {
                         name: 'View reports',
+                        active: false,
+                    },
+                    {
+                        name: 'Budget',
                         active: false,
                     }
                 ]
@@ -61,6 +66,9 @@ const Accounts = () => {
                         break;
                     case 'View reports':
                         activeSubmenuEntry = <ViewReports />
+                        break;
+                    case 'Budget':
+                        activeSubmenuEntry = <Budget />
                         break;
                 }
             }
