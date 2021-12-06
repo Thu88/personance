@@ -2,13 +2,12 @@ import React from "react";
 import { useEffect } from "react";
 import { useSession} from 'next-auth/client';
 import { makeStyles } from "@mui/styles";
-import { Box, Button, RaisedButton, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper, Typography } from '@mui/material'
-import { Label } from "@mui/icons-material";
+import { Box, Button, TextField, Select, FormControl, InputLabel, MenuItem, Table, TableContainer,TableHead, TableRow, TableBody, TableCell, Paper, Typography } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { parse } from 'csv-parse/sync';
-import { margin } from "@mui/system";
+import { id } from "date-fns/locale";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -38,8 +37,8 @@ const EditAccount = () => {
     const [account, setAccount] = React.useState('');
     const [accounts, setAccounts] = React.useState([]);
     const [rows, setRows] = React.useState([]);
-    const [value, setValue] = React.useState(null);
     const [session] = useSession();
+    const tableRef = React.useRef();
     const user = session.user;
 
     const handleChange = (event, child) => {
@@ -73,12 +72,32 @@ const EditAccount = () => {
     };
 
     const setRow = (row) => {
+      const tableBody = tableRef.current;
       const rowsCopy = [...rows];
-      const index = rowsCopy.findIndex((currentRow) => currentRow.id === row.id);
-      rowsCopy[index] = row;
+      const rowId = row.id;
+
+      const htmlCells = tableBody.rows[Number(rowId) - 1].cells;
+      console.log(htmlCells[1])
+      const updatedRow = {
+        id: rowId,
+        date: htmlCells[1].childNodes[0].childNodes[1].childNodes[0].value,
+        text: htmlCells[2].childNodes[0].childNodes[0].childNodes[0].value,
+        amount: htmlCells[3].childNodes[0].childNodes[0].childNodes[0].value,
+        category: htmlCells[4].childNodes[0].childNodes[0].childNodes[0].value,
+      }
+      rowsCopy[row.id - 1] = updatedRow;
       setRows(rowsCopy);
-      console.log(rowsCopy)
+      
     };
+
+    const setRowDate = (row) => {
+      const rowsCopy = [...rows];
+      
+      rowsCopy[row.id - 1] = row;
+      rows[row.id - 1] = row;
+
+      setRows(rowsCopy)
+    }
 
     const createRow = () => {
       const rowsCopy = [...rows];
@@ -185,7 +204,7 @@ const EditAccount = () => {
                     <TableCell align="left">Delete</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
+                <TableBody ref={tableRef}>
                     {rows.map((row, index) => {
                       return (
                         <TableRow key={row.id}>
@@ -194,37 +213,31 @@ const EditAccount = () => {
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label="Dato"
-                              value={rows[index].date}
+                              value = {rows[index].date}
                               onChange={(newValue) => {
-                                setRow({...rows[index], date: newValue})
-                              }}
-                              renderInput={(params) => <TextField {...params} />}
+                                setRowDate({...row, date: newValue})
+                              }} 
+                              renderInput={(params) => {
+                                  return <TextField {...params} />
+                                }}                      
                             />
                           </LocalizationProvider>
                           </TableCell>
                           <TableCell align="left">
                             <TextField
                             type="text"
-                            value={rows[index].text}
-                            onChange={(newValue) => {
-                              setRow({...rows[index], text: newValue.target.value})
-                            }} />
-                          </TableCell>
-                          
+                            defaultValue={rows[index].text}                       
+                            />
+                          </TableCell>                 
                           <TableCell align="left">
                             <TextField 
-                              value={rows[index].amount} 
-                              onChange={(newValue) => {
-                                setRow({...rows[index], amount: newValue.target.value})
-                              }}/>
-                          </TableCell>
-                          
+                              defaultValue={rows[index].amount} 
+                              />
+                          </TableCell>                  
                           <TableCell align="left">
                             <TextField 
-                              value={rows[index].category}
-                              onChange={(newValue) => {
-                                setRow({...rows[index], category: newValue.target.value})
-                              }}/>
+                              defaultValue={rows[index].category}
+                             />
                           </TableCell>
                           <TableCell>
                             <Button variant="contained" color="secondary" onClick={() => {
