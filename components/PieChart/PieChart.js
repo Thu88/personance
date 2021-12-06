@@ -21,27 +21,38 @@ const PieChart = ({ rows }) => {
     const pieRef = useRef();
     Chart.register(ChartDataLabels, ...registerables)
     if (rows.toString() !== expenses.toString()) {
-        setExpenses(rows);
+
         const categoryExpenses = rows.map(row => {
-            return {category: row.category, amount: Number(row.amount)};
+            const amountFormated = Number(row.amount.replace('.', '').replace(',', '.'));
+            return {'category': row.category, 'amount': amountFormated};
         });
-        console.log("categoryExpenses",categoryExpenses)
+        console.log("rows:", rows)
+        console.log("categoryExpenses:",categoryExpenses)
+        setExpenses(rows);
         const categoryExpensesFormated = [];
-    
+        
         for (let row of categoryExpenses) {
-            if(categoryExpensesFormated.length === 0) {
-                categoryExpensesFormated.push(row);
+            
+            if (row.category === '') {
+                row.category = 'Other';
             }
-            categoryExpensesFormated.forEach((elem) => {
-                if (row.category === elem.category) {
-                    elem.amount += row.amount;
-                }
-                else {
-                    categoryExpensesFormated.push(row);
-                }
-            })
+
+            const sameCategoryIndex = categoryExpensesFormated.findIndex(elem => row.category === elem.category);
+
+            if(categoryExpensesFormated.length === 0) {
+                categoryExpensesFormated.push({...row});
+                continue;
+            }
+
+
+            if (sameCategoryIndex !== -1) {
+                categoryExpensesFormated[sameCategoryIndex].amount += row.amount;
+            } else {
+                categoryExpensesFormated.push({...row});
+            }
+
+           
         }
-        console.log("categoryExpensesFormated",categoryExpensesFormated)
 
         const tempCategories = categoryExpensesFormated.map((elem) => {
             return elem.category;
@@ -51,38 +62,24 @@ const PieChart = ({ rows }) => {
             return elem.amount;
         });
 
-        console.log("tempCategories", tempCategories)
-        console.log("tempAmounts", tempAmounts)
-
-    
         setCategories(tempCategories);
         setAmounts(tempAmounts);
-
-        
-        console.log("categories", categories)
-        console.log("amounts", amounts)
-
-
 
         pieChart.data.datasets[0].data = tempAmounts;
         pieChart.data.labels = tempCategories;
         pieChart.data.datasets[0].backgroundColor = tempCategories.map((elem, index) => {
             const color = generateRandomColor();
-            console.log(color)
             return color;
         })
         pieChart.data.indexLabelPlacement = true;
 
-        console.log(pieChart)
         pieChart.update()
 
     }
     
-    
     useEffect(() => {
         const myChartRef = pieRef.current.getContext("2d");
         myChartRef.getContextimageSmoothingEnabled = true
-        console.log(myChartRef)
         pieChart = new Chart(myChartRef, {
             type: "pie",
             data: {
@@ -134,6 +131,7 @@ const PieChart = ({ rows }) => {
         </Box>        
         
     )
+   
 };
 
 export default PieChart;
