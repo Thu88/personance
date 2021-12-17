@@ -110,7 +110,7 @@ const Budget = () => {
                 <List>
                     {accounts.map((acc, index) => {
                         return (
-                            <Box>
+                            <Box key={`${acc}:${index}`}>
                                 <ListItem key={`${acc}${index}`}>
                                     <Box className={classes.accContainer}>
                                         <Typography className={classes.accNo}>Account number: </Typography>
