@@ -1,4 +1,4 @@
-describe('Edit account', () => {
+describe('View reports', () => {
     before(() => {
         cy.visit('http://localhost:3000/api/auth/signin');
     
