@@ -1,4 +1,4 @@
-import { AppBar, Box, CardMedia, Divider, Typography, Link } from "@mui/material";
+import { AppBar, Box, Divider, Typography, Link } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import MainMenu from '../MainMenu';
 import MainPopupMenu from "../MainPopupMenu";
@@ -21,7 +21,6 @@ const useStyles = makeStyles({
             objectFit: 'cover'
         },
         divider: {
-            //marginLeft:'auto',
             marginRight:'100px'
         },
         popupMenu: {
