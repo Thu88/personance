@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
-import { TextField, Button, Box, List, ListItem, Paper, Checkbox, Form, Typography } from "@mui/material";
-import { useRouter } from 'next/router';
+import { TextField, Button, Box, List, ListItem, Paper, Checkbox, Typography } from "@mui/material";
 import { useSession} from 'next-auth/client';
-import { display, margin } from "@mui/system";
 
 const useStyles = makeStyles(theme => ({
     createAccountContainer: {
@@ -23,7 +21,7 @@ const useStyles = makeStyles(theme => ({
       rowGap: '10px',
     },
     listItem: {
-      //margin: '14px 0 14px 7px'
+      
     },
     button: {
       width: '200px',
@@ -47,15 +45,16 @@ const CreateAccount = () => {
     const [checked, setChecked] = React.useState([]);
     const [accountNo, setAccountNo] = React.useState('');
     const [session] = useSession();
-    const router = useRouter();
     const user = session.user;
     const [accounts, setAccounts] = React.useState([])
+    
     const handleAccountChange = (event) => {
+      /* This function saves the account the user writes to the input field. It is a controlled input */
       setAccountNo(event.target.value);
     };
 
     const postAccount = () => {
-      console.log(user, accountNo)
+      /* This function saves the saved account to the database */
       fetch('/api/createaccount', {
         method: 'POST',
         body: JSON.stringify({user: user, accountNo: accountNo})
@@ -63,6 +62,7 @@ const CreateAccount = () => {
         console.log(res)
         if (res.message === 'success') {
           const newAccounts = [...accounts];
+          //The accounts in the list is updated with the new account after it has been saved in the database
           newAccounts.push(accountNo);
           setAccounts(newAccounts);
         }
@@ -70,14 +70,15 @@ const CreateAccount = () => {
     };
 
     const deleteAccount = () => {
+      /* This function deletes the account which the user has selected */
       const newAccounts = accounts.filter((value, index) => checked.indexOf(`${index}`) === -1);
-      console.log(newAccounts);
       fetch('/api/deleteaccount', {
         method: 'POST',
         body: JSON.stringify({user, newAccounts})
       }).then(res => res.json()).then(res =>{
         console.log(res)
         if (res.message === 'success') {
+          //The accounts in the list is updated after the account has been deleted from the database
           setAccounts(newAccounts);
         }
       });
@@ -86,18 +87,21 @@ const CreateAccount = () => {
 
 
     const handleToggle = (value) => () => {
+      /* This function makes it possible to check one of the checkboxes, when the user selects an account */
       const currentIndex = checked.indexOf(value);
       const newChecked = [...checked];
       if (currentIndex === -1) {
-        newChecked.push(value);
+        //If the checkbox isn't checked, check it
+        newChecked.push(value); 
       } else {
+        //If the checkbox is already checked, uncheck it
         newChecked.splice(currentIndex, 1);
       }
-      console.log(currentIndex)
       setChecked(newChecked);
     };
 
     useEffect(() => {
+      /* When the components gets activated, get all the accounts the user has created */
       fetch('/api/getaccounts', {
         method: 'POST',
         body: JSON.stringify({user: user})
