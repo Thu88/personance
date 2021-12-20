@@ -49,6 +49,7 @@ const useStyles = makeStyles({
 function Layout({ children }) {
     const classes = useStyles();
 
+    //Return the layout for the site
     return (
         <>
             <ThemeProvider theme={theme}>
