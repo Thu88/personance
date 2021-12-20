@@ -1,6 +1,5 @@
 import { Button, Box, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { borderRadius } from "@mui/system";
 
 const useStyles = makeStyles({
         button: {
@@ -9,9 +8,6 @@ const useStyles = makeStyles({
             textTransform: 'none',
         }
     },
-    {
-        name: 'testt'
-    }
 );
 
 function MainMenu( {className} ) {
