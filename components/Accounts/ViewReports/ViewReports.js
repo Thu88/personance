@@ -25,30 +25,33 @@ const ViewReports = () => {
     const user = session.user;
 
     const handleChange = (event, child) => {
+      /* This function is run when the user selects an account from the dropdown list */
         const id = Number(child.props.accountindex);
         const accountNo = event.target.value;
-        console.log(event.target.value)
+        
+        //Save the account
         setAccount(event.target.value);
-  
+
+        //Get the transactions connected to the account from the database
         fetch('/api/getaccountscontent', {
           method: 'POST',
           body: JSON.stringify({user, accountNo, id})
         })
         .then(res => res.json())
         .then(res => {
-          console.log(res)
-          setRows(res.rows)
+          setRows(res.rows) //Save the transactions
         })
       };
 
       useEffect(() => {
+        /*When the components gets activated, get all the accounts the user has created */
         fetch('/api/getaccounts', {
           method: 'POST',
           body: JSON.stringify({user: user})
         }).then(res => res.json()).then(res =>{
           if (res.message === 'success') {
             const newAccounts = res.accounts;
-            setAccounts(newAccounts);
+            setAccounts(newAccounts); //Save the accounts
           }
         });
 
