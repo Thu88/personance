@@ -7,7 +7,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { parse } from 'csv-parse/sync';
-import { id } from "date-fns/locale";
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -42,23 +41,26 @@ const EditAccount = () => {
     const user = session.user;
 
     const handleChange = (event, child) => {
+      /* This function is run when the user selects an account from the dropdown list */
       const id = Number(child.props.accountindex);
       const accountNo = event.target.value;
-      console.log(event.target.value)
+
+      //Save the account
       setAccount(event.target.value);
 
+      //Get the transactions connected to the account from the database
       fetch('/api/getaccountscontent', {
         method: 'POST',
         body: JSON.stringify({user, accountNo, id})
       })
       .then(res => res.json())
       .then(res => {
-        console.log(res)
-        setRows(res.rows)
+        setRows(res.rows) //Save the transactions
       })
     };
 
     const updateRow = () => {
+      /* This function is used to update rows in the database */
       const id = accounts.findIndex((acc) => acc === account)
       fetch('/api/editaccount', {
         method: 'POST',
@@ -72,6 +74,7 @@ const EditAccount = () => {
     };
 
     const setRow = (row) => {
+      /* This function is used to update this components rows state */
       const tableBody = tableRef.current;
       const rowsCopy = [...rows];
       const rowId = row.id;
@@ -91,6 +94,7 @@ const EditAccount = () => {
     };
 
     const setRowDate = (row) => {
+      //This function is used to update the datepicker. The datepicker uses a controlled input
       const rowsCopy = [...rows];
       
       rowsCopy[row.id - 1] = row;
@@ -100,6 +104,7 @@ const EditAccount = () => {
     }
 
     const createRow = () => {
+      /* This function is used to add a new row, when the user clicks on Create new row */
       const rowsCopy = [...rows];
       if (rowsCopy.length === 0) {
         rowsCopy.push({id: 1, date: null, text: '', amount: '', category: ''});
@@ -111,6 +116,7 @@ const EditAccount = () => {
     };
 
     const deleteRow = (row) => {
+      /* This function is used to delete a row */
       const rowsCopy = [...rows];
       const index = rowsCopy.findIndex((currentRow) => currentRow.id === row.id);
       rowsCopy.splice(index, 1)
@@ -118,21 +124,22 @@ const EditAccount = () => {
     };
 
     const handleFileUpload = (event) => {
-      const importedAccountRows = [];
+      /* This function is used to import a CSV file */
       const importedCsvFile = event.target.files[0];
       const reader = new FileReader();
       
       reader.addEventListener("load", () => {
         const text = reader.result;
-        const records = parse(text, {delimiter: ';'});
+        const records = parse(text, {delimiter: ';'}); //Parse the CSV file to the variable
         const id = rows.length === 0 ? 1 : rows[rows.length -1].id + 1
-        const rowsToBeAdded = records.slice(1).map((record, index) => {
-          const csvDate = record[0].split(".");
-          console.log(csvDate)
+        const rowsToBeAdded = records.slice(1).map((record, index) => { //Map all transactions except the first one which contains some head lines to the CSV transactions
+          const csvDate = record[0].split("."); //Get the date from the transaction since a Date object has to be created
+          
+          //Return an object containing all transaction information
           return {id: id + index, date: new Date(csvDate[2], csvDate[1] -1, csvDate[0]), text: record[1], amount: record[2], category: ''};
         });
 
-        console.log(rowsToBeAdded)
+        //Set the rows state to the new transactions from the CSV file
         setRows([...rows, ...rowsToBeAdded])
       })
       reader.readAsText(importedCsvFile);
@@ -140,10 +147,12 @@ const EditAccount = () => {
 
     const containerRef = React.useRef();
     useEffect(() => {
+      //The diagrams sometimes keep rendering even though the component isn't active.
+      //This timeout callback scrolls a little on the page to make the diagram stop rendering
         setTimeout(() => {
           containerRef.current.className = classes.containerAfterUpdate
-          console.log(containerRef)
         }, 30)
+        //When the components gets activated, get all the accounts the user has created
         fetch('/api/getaccounts', {
           method: 'POST',
           body: JSON.stringify({user: user})
@@ -158,7 +167,7 @@ const EditAccount = () => {
 
     return (
         <Box ref={containerRef} id="editAccountContainer" className={classes.container}>
-            <FormControl fullWidth>
+            <FormControl fullWidth> {/* The account dropdown list */}
                 <InputLabel id="demo-simple-select-label">Account</InputLabel>
                 <Select
                 labelId="demo-simple-select-label"
@@ -185,14 +194,14 @@ const EditAccount = () => {
                 type="file"
                 onChange={handleFileUpload}
               />
-              <label htmlFor="raised-button-file">
+              <label htmlFor="raised-button-file"> {/* The button where you can import CSV files */}
                 <Button variant="contained" color="secondary" component="span" className={classes.button}>
                   <Typography>Upload csv file</Typography>
                 </Button>
               </label> 
             </Box>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+              <Table sx={{ minWidth: 700 }} aria-label="spanning table"> {/* The table containing all the transactions */}
                 <TableHead>
                   <TableRow>
                     <TableCell align="left">Id</TableCell>
@@ -210,7 +219,7 @@ const EditAccount = () => {
                         <TableRow key={row.id}>
                           <TableCell aria-disabled align="left">{row.id}</TableCell>
                           <TableCell align="left">
-                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <LocalizationProvider dateAdapter={AdapterDateFns}> {/* The datepicker component */}
                             <DatePicker
                               label="Dato"
                               value = {rows[index].date}
