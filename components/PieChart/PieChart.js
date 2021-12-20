@@ -6,7 +6,8 @@ import React from 'react';
 let pieChart;
 
 function generateRandomColor(){
-    let maxVal = 0xFFFFFF; // 16777215
+    /* This function returns a random color as a hexadicimal string */
+    let maxVal = 0xFFFFFF;
     let randomNumber = Math.random() * maxVal; 
     randomNumber = Math.floor(randomNumber);
     randomNumber = randomNumber.toString(16);
@@ -19,45 +20,54 @@ const PieChart = ({ rows }) => {
     const [categories, setCategories] = React.useState([]);
     const [amounts, setAmounts] = React.useState([])
     const pieRef = useRef();
-    Chart.register(ChartDataLabels, ...registerables)
-    if (rows.toString() !== expenses.toString()) {
 
+    Chart.register(ChartDataLabels, ...registerables)
+
+    //Only update the chart if the rows props are different then the saved rows in the expenses state.
+    //This means that new data is availible.
+    if (rows.toString() !== expenses.toString()) { 
+
+        //Format the amounts to use dots instead of decimal point
         const categoryExpenses = rows.map(row => {
             const amountFormated = Number(row.amount.replace('.', '').replace(',', '.'));
             return {'category': row.category, 'amount': amountFormated};
         });
-        console.log("rows:", rows)
-        console.log("categoryExpenses:",categoryExpenses)
+       
         setExpenses(rows);
-        const categoryExpensesFormated = [];
+
+        const categoryExpensesFormated = []; //An array to values in the format {category: amount}
         
         for (let row of categoryExpenses) {
             
+            //If the user hasn't provided a category, make the transactions category 'Other'
             if (row.category === '') {
                 row.category = 'Other';
             }
 
             const sameCategoryIndex = categoryExpensesFormated.findIndex(elem => row.category === elem.category);
 
+            //If categoryExpensesFormated is empty, push the row and continue
             if(categoryExpensesFormated.length === 0) {
                 categoryExpensesFormated.push({...row});
                 continue;
             }
 
-
-            if (sameCategoryIndex !== -1) {
+            
+            if (sameCategoryIndex !== -1) { //If the category from the transaction already is in categoryExpensesFormated, add the amount to that category
                 categoryExpensesFormated[sameCategoryIndex].amount += row.amount;
-            } else {
+            } else { //If the category from the transaction isn't in categoryExpensesFormated, add the row to categoryExpensesFormated
                 categoryExpensesFormated.push({...row});
             }
 
            
         }
-
+        
+        //Gather all categories
         const tempCategories = categoryExpensesFormated.map((elem) => {
             return elem.category;
         });
-
+        
+        //Gather all amounts
         const tempAmounts = categoryExpensesFormated.map((elem) => {
             return elem.amount;
         });
@@ -65,6 +75,7 @@ const PieChart = ({ rows }) => {
         setCategories(tempCategories);
         setAmounts(tempAmounts);
 
+        //Configure the pie chart data
         pieChart.data.datasets[0].data = tempAmounts;
         pieChart.data.labels = tempCategories;
         pieChart.data.datasets[0].backgroundColor = tempCategories.map((elem, index) => {
@@ -73,11 +84,13 @@ const PieChart = ({ rows }) => {
         })
         pieChart.data.indexLabelPlacement = true;
 
+        //Update the pie chart
         pieChart.update()
 
     }
     
     useEffect(() => {
+        //Configure the pie chart options
         const myChartRef = pieRef.current.getContext("2d");
         myChartRef.getContextimageSmoothingEnabled = true
         pieChart = new Chart(myChartRef, {
