@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         to update an account with new transactions */
     
     //Setup MongoClient
-    const uri = "mongodb+srv:" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
+    const uri = "mongodb+srv://" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
      //Get the user, account number, id and transactions from the POST request

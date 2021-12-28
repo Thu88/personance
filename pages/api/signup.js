@@ -6,7 +6,7 @@ export default function handler(req, res) {
        to sign up a new user */
     if (req.method === 'POST') {
         //Setup MongoClient
-        const uri = "mongodb+srv:" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
+        const uri = "mongodb+srv://" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
         const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
         const requestData = JSON.parse(req.body) //Get the user content from the POST request
