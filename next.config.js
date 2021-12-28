@@ -9,7 +9,7 @@ module.exports = (phase, { defaultConfig }) => {
   
   return {
     env: {
-      NEXTAUTH_URL: url
+      NEXTAUTH_URL: url,
     }
   }
   
