@@ -9,6 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       
+      # Make database information avialible to the local server
       - name: Create env file
         run: |
          touch .env.local
