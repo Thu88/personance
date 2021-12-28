@@ -10,18 +10,18 @@ jobs:
         uses: actions/checkout@v2
       
       # Make database information avialible to the local server
-      #Run agian 3
+      #Run agian 5 
       - name: Create env file
         run: touch .env.local
 
       - name: Add password to env
-        run: echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env.local
+        run: echo DATABASE_PASSWORD=${{ secrets.DATABASE_URL }} >> .env.local
 
       - name: Add url to env
         run: echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.local
 
       - name: Add user to env
-        run: echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env.local
+        run: echo DATABASE_USER=${{ secrets.DATABASE_URL }} >> .env.local
       
       - name: print env contents
         run: cat .env.local
