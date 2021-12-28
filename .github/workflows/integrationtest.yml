@@ -12,12 +12,19 @@ jobs:
       # Make database information avialible to the local server
       #Run agian 2
       - name: Create env file
-        run: |
-         touch .env.local
-         echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env.local
-         echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.local
-         echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env.local
-         cat .env.local
+        run: touch .env.local
+
+      - name: Add password to env
+        run: echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env.local
+
+      - name: Add url to env
+        run: echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.local
+
+      - name: Add user to env
+        run: echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env.local
+      
+      - name: print env contents
+        run: cat .env.local
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
