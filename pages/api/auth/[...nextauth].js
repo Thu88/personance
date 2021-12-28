@@ -19,6 +19,8 @@ export default NextAuth({
                 //Setup MongoClient
                 const uri = "mongodb+srv://" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
                 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+                console.log(uri);
                 
                 let user;
                 await client.connect();
