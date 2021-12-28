@@ -5,7 +5,7 @@ export default async function handler(req, res) {
         to delete an account */
     
     //Setup MongoClient
-    const uri = "mongodb+srv://thomasRoot:thmdikmfs89987IJBHIHBIU@personance.c4kx6.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    const uri = "mongodb+srv:" + process.env.DATABASE_USER + ":" + process.env.DATABASE_PASSWORD + process.env.DATABASE_URL;
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     //Get the user and account to be deleted

@@ -113,7 +113,6 @@ const CreateAccount = () => {
       })
     }, [])
 
-    console.log(checked)
     return (
         <>  
             <Box className={classes.createAccountContainer}>

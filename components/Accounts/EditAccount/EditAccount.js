@@ -38,6 +38,7 @@ const EditAccount = () => {
     const [rows, setRows] = React.useState([]);
     const [session] = useSession();
     const tableRef = React.useRef();
+    const containerRef = React.useRef();
     const user = session.user;
 
     const handleChange = (event, child) => {
@@ -145,7 +146,6 @@ const EditAccount = () => {
       reader.readAsText(importedCsvFile);
     }
 
-    const containerRef = React.useRef();
     useEffect(() => {
       //The diagrams sometimes keep rendering even though the component isn't active.
       //This timeout callback scrolls a little on the page to make the diagram stop rendering

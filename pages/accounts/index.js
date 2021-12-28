@@ -13,7 +13,6 @@ const Accounts = () => {
     const {submenu} = useSelector(state => state.submenu); //Subscribe to submenu state from Redux
     const router = useRouter();
     let session;
-    
     let activeSubmenuEntry;
 
     useEffect(() => {

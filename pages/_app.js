@@ -17,7 +17,6 @@ function customApp({
     <ReduxProvider store={store}>     
         <Provider session={session}>
           <Layout>
-        
               <Component {...pageProps}></Component>
           </Layout>
         </Provider>
