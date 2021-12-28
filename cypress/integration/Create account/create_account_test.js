@@ -8,7 +8,7 @@ describe('Create account', () => {
         cy.get('input[name="username"]').type('Testing');
         cy.get('input[name="password"]').type('test');
         cy.get('form').submit();
-
+        cy.wait(3000);
         cy.get('a[href="/accounts"]').click();
         cy.wait(1000);
         cy.get('button[name="Create_account"]').click();
