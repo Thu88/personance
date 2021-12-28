@@ -17,7 +17,7 @@ jobs:
          echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env.local
          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.local
          echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env.local
-         ls
+         ls -a
 
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
