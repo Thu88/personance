@@ -1,7 +1,25 @@
+import { makeStyles } from "@mui/styles";
+import { Box } from "@mui/material";
+
+const useStyles = makeStyles({
+        img: {
+           width: '500px',
+           height: '500px',
+           marginLeft: '30px'
+        }
+    },
+);
 
 function HomePage() {
-    return <div>{process.env.NEXTAUTH_URL}</div>
-  }
+    const classes = useStyles();
+
+    return ( 
+      
+      <Box>
+        <img className={classes.img} src="images/money.png" />
+      </Box>
+    );
+}
   
-export default HomePage
+export default HomePage;
   
