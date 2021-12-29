@@ -10,5 +10,5 @@ How to run a server in a local environment:
 How to run local E2E tests:
     Prerequisites:
         A local server must be started
-    
-    1. Run the command 'npm run cypress'
+
+    1. Run the command 'npm run cypress' inside the project root
