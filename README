@@ -1,0 +1,14 @@
+Prerequisites:
+    Latest version of node.js
+
+How to run a server in a local environment:
+    1. Clone the repository.
+    2. Run 'npm install' inside the project root
+    3. Start the local server with 'npm run dev' indside the project root
+    4. Vistit the url http://localhost:3000
+
+How to run local E2E tests:
+    Prerequisites:
+        A local server must be started
+    
+    1. Run the command 'npm run cypress'
