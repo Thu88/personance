@@ -84,7 +84,6 @@ const EditAccount = () => {
       console.log(htmlCells[1])
       const updatedRow = {
         id: rowId,
-        date: htmlCells[1].childNodes[0].childNodes[1].childNodes[0].value,
         text: htmlCells[2].childNodes[0].childNodes[0].childNodes[0].value,
         amount: htmlCells[3].childNodes[0].childNodes[0].childNodes[0].value,
         category: htmlCells[4].childNodes[0].childNodes[0].childNodes[0].value,
