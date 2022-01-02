@@ -250,13 +250,11 @@ const EditAccount = () => {
                           <TableCell>
                             <Button variant="contained" color="secondary" onClick={() => {
                               setRow(row);
-                              updateRow();
                             }}>Updater</Button>
                           </TableCell>
                           <TableCell>
                             <Button variant="contained" color="secondary" onClick={() => {
                               deleteRow(row);
-                              updateRow();
                             }}>Delete</Button>
                           </TableCell>
                         </TableRow>
