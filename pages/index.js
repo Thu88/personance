@@ -16,6 +16,7 @@ function HomePage() {
     return ( 
       
       <Box>
+        <h1>Eksamen</h1>
         <img className={classes.img} src="images/money.png" />
       </Box>
     );
